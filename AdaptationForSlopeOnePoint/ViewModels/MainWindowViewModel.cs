@@ -27,7 +27,7 @@ namespace AdaptationForSlopeOnePoint.ViewModels
 
         #region Заголовок
 
-        private string _title = "Адаптация под уклон профиля с одной точкой";
+        private string _title = "Адаптация под уклон 1 точка";
 
         public string Title
         {

@@ -57,6 +57,17 @@
         </Style>
     </Window.Resources>
     <StackPanel>
+        <GroupBox Header="Профиль">
+            <UniformGrid Columns="2">
+                <UniformGrid Rows="2">
+                    <TextBlock Text="Элементы плиты"
+                               Style="{StaticResource TextAboveButton}" />
+                    <Button Style="{StaticResource SelectButton}" />
+                </UniformGrid>
+                <TextBox Text="Элементы профиля"
+                         Style="{StaticResource SelectedItemsBox}" />
+            </UniformGrid>
+        </GroupBox>
         <GroupBox Header="Верх покрытия">
             <UniformGrid Columns="2">
                 <UniformGrid Rows="2">
