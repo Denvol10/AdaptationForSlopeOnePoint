@@ -27,7 +27,7 @@ namespace AdaptationForSlopeOnePoint.ViewModels
 
         #region Заголовок
 
-        private string _title = "Комнаты";
+        private string _title = "Адаптация под уклон профиля с одной точкой";
 
         public string Title
         {
@@ -37,30 +37,33 @@ namespace AdaptationForSlopeOnePoint.ViewModels
 
         #endregion
 
-        #region Список комнат
+        #region Линия на поверхности
 
-        private ObservableCollection<string> _rooms;
+        private string _roadLineElemIds1;
 
-        public ObservableCollection<string> Rooms
+        public string RoadLineElemIds1
         {
-            get => _rooms;
-            set => Set(ref _rooms, value);
+            get => _roadLineElemIds1;
+            set => Set(ref _roadLineElemIds1, value);
         }
 
         #endregion
 
         #region Команды
 
-        #region Команда получение всех комнат
+        #region Получение линии на поверхности дороги
 
-        public ICommand GetRoomsCommand { get; }
+        public ICommand GetRoadLine { get; }
 
-        private void OnGetRoomsCommandExecuted(object parameter)
+        private void OnGetRoadLineCommandExecuted(object parameter)
         {
-            Rooms = new ObservableCollection<string>(RevitModel.GetAllRooms());
+            RevitCommand.mainView.Hide();
+            RevitModel.GetRoadLine1();
+            RoadLineElemIds1 = RevitModel.RoadLineElemIds1;
+            RevitCommand.mainView.ShowDialog();
         }
 
-        private bool CanGetRoomsCommandExecute(object parameter)
+        private bool CanGetRoadLineCommandExecute(object parameter)
         {
             return true;
         }
@@ -71,14 +74,18 @@ namespace AdaptationForSlopeOnePoint.ViewModels
 
 
         #region Конструктор класса MainWindowViewModel
-        public MainWindowViewModel()
+        public MainWindowViewModel(RevitModelForfard revitModel)
         {
-            #region
+            RevitModel = revitModel;
 
-            GetRoomsCommand = new LambdaCommand(OnGetRoomsCommandExecuted, CanGetRoomsCommandExecute);
+            #region
+            GetRoadLine = new LambdaCommand(OnGetRoadLineCommandExecuted, CanGetRoadLineCommandExecute);
 
             #endregion
         }
+
+        public MainWindowViewModel()
+        { }
         #endregion
     }
 }

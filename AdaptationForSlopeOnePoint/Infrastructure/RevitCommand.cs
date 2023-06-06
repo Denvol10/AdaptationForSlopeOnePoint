@@ -17,6 +17,8 @@ namespace AdaptationForSlopeOnePoint.Infrastructure
     [Regeneration(RegenerationOption.Manual)]
     internal class RevitCommand : IExternalCommand
     {
+        public static MainWindow mainView = null;
+
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             UIApplication uiapp = commandData.Application;
@@ -26,8 +28,8 @@ namespace AdaptationForSlopeOnePoint.Infrastructure
 
             try
             {
-                MainWindowViewModel mainWindowViewModel = new MainWindowViewModel();
-                mainWindowViewModel.RevitModel = new RevitModelForfard(uiapp);
+                var RevitModel = new RevitModelForfard(uiapp);
+                MainWindowViewModel mainWindowViewModel = new MainWindowViewModel(RevitModel);
 
                 System.Diagnostics.Process proc = System.Diagnostics.Process.GetCurrentProcess();
 
@@ -38,10 +40,9 @@ namespace AdaptationForSlopeOnePoint.Infrastructure
 
                     view.DataContext = mainWindowViewModel;
 
-                    if (view.ShowDialog() != true)
-                    {
-                        return Result.Cancelled;
-                    }
+                    mainView = view;
+
+                    view.ShowDialog();
                 }
 
                 return Result.Succeeded;
