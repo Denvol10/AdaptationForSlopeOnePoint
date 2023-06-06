@@ -11,9 +11,9 @@ using Autodesk.Revit.UI.Selection;
 using Autodesk.Revit.DB.Architecture;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using RevitWPFTemplate.Infrastructure;
+using AdaptationForSlopeOnePoint.Infrastructure;
 
-namespace RevitWPFTemplate.ViewModels
+namespace AdaptationForSlopeOnePoint.ViewModels
 {
     internal class MainWindowViewModel : Base.ViewModel
     {
