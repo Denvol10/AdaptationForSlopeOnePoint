@@ -26,7 +26,6 @@ namespace AdaptationForSlopeOnePoint.ViewModels
         }
 
         #region Заголовок
-
         private string _title = "Адаптация под уклон 1 точка";
 
         public string Title
@@ -34,11 +33,19 @@ namespace AdaptationForSlopeOnePoint.ViewModels
             get => _title;
             set => Set(ref _title, value);
         }
+        #endregion
 
+        #region Адаптивные профили
+        private string _adaptiveProfileElemIds;
+
+        public string AdaptiveProfileElemIds
+        {
+            get => _adaptiveProfileElemIds;
+            set => Set(ref _adaptiveProfileElemIds, value);
+        }
         #endregion
 
         #region Линия на поверхности
-
         private string _roadLineElemIds1;
 
         public string RoadLineElemIds1
@@ -46,13 +53,28 @@ namespace AdaptationForSlopeOnePoint.ViewModels
             get => _roadLineElemIds1;
             set => Set(ref _roadLineElemIds1, value);
         }
-
         #endregion
 
         #region Команды
 
-        #region Получение линии на поверхности дороги
+        #region Получение адаптивных профилей
+        public ICommand GetAdaptiveProfiles { get; }
 
+        private void OnGetAdaptiveProfilesCommandExecuted(object parameter)
+        {
+            RevitCommand.mainView.Hide();
+            RevitModel.GetAdaptiveProfiles();
+            AdaptiveProfileElemIds = RevitModel.AdaptiveProfileElemIds;
+            RevitCommand.mainView.ShowDialog();
+        }
+
+        private bool CanGetAdaptiveProfilesCommandExecute(object parameter)
+        {
+            return true;
+        }
+        #endregion
+
+        #region Получение линии на поверхности дороги
         public ICommand GetRoadLine { get; }
 
         private void OnGetRoadLineCommandExecuted(object parameter)
@@ -67,7 +89,6 @@ namespace AdaptationForSlopeOnePoint.ViewModels
         {
             return true;
         }
-
         #endregion
 
         #endregion
@@ -78,9 +99,9 @@ namespace AdaptationForSlopeOnePoint.ViewModels
         {
             RevitModel = revitModel;
 
-            #region
+            #region Команды
+            GetAdaptiveProfiles = new LambdaCommand(OnGetAdaptiveProfilesCommandExecuted, CanGetAdaptiveProfilesCommandExecute);
             GetRoadLine = new LambdaCommand(OnGetRoadLineCommandExecuted, CanGetRoadLineCommandExecute);
-
             #endregion
         }
 

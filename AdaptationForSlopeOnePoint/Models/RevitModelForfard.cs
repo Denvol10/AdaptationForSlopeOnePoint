@@ -29,6 +29,23 @@ namespace AdaptationForSlopeOnePoint
             Doc = uiapp.ActiveUIDocument.Document;
         }
 
+        #region Семейства адаптивных профилей
+        public List<FamilyInstance> AdaptiveProfiles { get; set; }
+
+        private string _adaptiveProfileElemIds;
+        public string AdaptiveProfileElemIds
+        {
+            get => _adaptiveProfileElemIds;
+            set => _adaptiveProfileElemIds = value;
+        }
+        
+        public void GetAdaptiveProfiles()
+        {
+            AdaptiveProfiles = RevitGeometryUtils.GetFamilyInstances(Uiapp, out _adaptiveProfileElemIds);
+        }
+
+        #endregion
+
         #region Линия на поверхности
         public List<Line> RoadLines1 { get; set; }
 

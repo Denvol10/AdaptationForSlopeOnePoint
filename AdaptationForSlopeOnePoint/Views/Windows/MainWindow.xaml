@@ -62,9 +62,10 @@
                 <UniformGrid Rows="2">
                     <TextBlock Text="Элементы плиты"
                                Style="{StaticResource TextAboveButton}" />
-                    <Button Style="{StaticResource SelectButton}" />
+                    <Button Style="{StaticResource SelectButton}"
+                            Command="{Binding GetAdaptiveProfiles}" />
                 </UniformGrid>
-                <TextBox Text="Элементы профиля"
+                <TextBox Text="{Binding AdaptiveProfileElemIds}"
                          Style="{StaticResource SelectedItemsBox}" />
             </UniformGrid>
         </GroupBox>

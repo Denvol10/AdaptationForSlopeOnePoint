@@ -8,6 +8,17 @@ namespace AdaptationForSlopeOnePoint.Models
 {
     internal class RevitGeometryUtils
     {
+        // Метод получения экземпляров семейств
+        public static List<FamilyInstance> GetFamilyInstances(UIApplication uiapp, out string elementIds)
+        {
+            Selection sel = uiapp.ActiveUIDocument.Selection;
+            var selectedElements = sel.PickElementsByRectangle(new GenericModelCategoryFilter(), "Select Family Instances");
+            elementIds = ElementIdToString(selectedElements);
+            var familyInstances = selectedElements.OfType<FamilyInstance>().ToList();
+
+            return familyInstances;
+        }
+
         // Метод получения списка линий на поверхности дороги
         public static List<Line> GetRoadLines(UIApplication uiapp, out string elementIds)
         {
