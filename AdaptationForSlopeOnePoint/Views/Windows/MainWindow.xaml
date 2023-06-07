@@ -8,6 +8,7 @@
         mc:Ignorable="d"
         Title="{Binding Title}"
         WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
         Background="#f0f0f0"
         Height="245"
         Width="350">
