@@ -8,6 +8,7 @@
         mc:Ignorable="d"
         Title="{Binding Title}"
         WindowStartupLocation="CenterScreen"
+        Background="#f0f0f0"
         Height="245"
         Width="350">
     <Window.DataContext>
@@ -55,9 +56,19 @@
             <Setter Property="VerticalAlignment"
                     Value="Bottom" />
         </Style>
+        <Style x:Key="BorderGroupStyle"
+               TargetType="GroupBox">
+            <Setter Property="BorderBrush"
+                    Value="#818181" />
+            <Setter Property="BorderThickness"
+                    Value="0.5" />
+            <Setter Property="Margin"
+                    Value="2,0,3,0" />
+        </Style>
     </Window.Resources>
     <StackPanel>
-        <GroupBox Header="Профиль">
+        <GroupBox Header="Профиль"
+                  Style="{StaticResource BorderGroupStyle}">
             <UniformGrid Columns="2">
                 <UniformGrid Rows="2">
                     <TextBlock Text="Элементы плиты"
@@ -69,7 +80,8 @@
                          Style="{StaticResource SelectedItemsBox}" />
             </UniformGrid>
         </GroupBox>
-        <GroupBox Header="Верх покрытия">
+        <GroupBox Header="Верх покрытия"
+                  Style="{StaticResource BorderGroupStyle}">
             <UniformGrid Columns="2">
                 <UniformGrid Rows="2">
                     <TextBlock Text="Линия на поверхности"
@@ -81,7 +93,8 @@
                          Style="{StaticResource SelectedItemsBox}" />
             </UniformGrid>
         </GroupBox>
-        <GroupBox Header="Адаптация профиля под уклон">
+        <GroupBox Header="Адаптация профиля под уклон"
+                  Style="{StaticResource BorderGroupStyle}">
             <UniformGrid Columns="2">
                 <Button Style="{StaticResource SelectButton}"
                         Content="Ok"
