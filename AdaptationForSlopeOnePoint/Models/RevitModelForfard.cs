@@ -11,6 +11,7 @@ using Autodesk.Revit.UI.Selection;
 using Autodesk.Revit.DB.Architecture;
 using System.Collections.ObjectModel;
 using AdaptationForSlopeOnePoint.Models;
+using System.IO;
 
 namespace AdaptationForSlopeOnePoint
 {
@@ -38,7 +39,7 @@ namespace AdaptationForSlopeOnePoint
             get => _adaptiveProfileElemIds;
             set => _adaptiveProfileElemIds = value;
         }
-        
+
         public void GetAdaptiveProfiles()
         {
             AdaptiveProfiles = RevitGeometryUtils.GetFamilyInstances(Uiapp, out _adaptiveProfileElemIds);
@@ -62,6 +63,22 @@ namespace AdaptationForSlopeOnePoint
         }
         #endregion
 
+        #region Перенос точки ручки формы на линию
+        public void MoveShapeHandlePoint()
+        {
+            using (Transaction trans = new Transaction(Doc, "Адаптация Профиля Под Уклон"))
+            {
+                trans.Start();
+                foreach (var profile in AdaptiveProfiles)
+                {
+                    XYZ intersectionPoint = RevitGeometryUtils.GetIntersectPoint(Doc, profile, RoadLines1);
+                    ReferencePoint shapeHandlePoint = RevitGeometryUtils.GetShapeHandlePoints(Doc, profile).First();
+                    shapeHandlePoint.Position = intersectionPoint;
+                }
+                trans.Commit();
+            }
+        }
+        #endregion
 
     }
 }

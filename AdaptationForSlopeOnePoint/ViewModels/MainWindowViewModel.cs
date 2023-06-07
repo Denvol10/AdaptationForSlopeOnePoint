@@ -91,6 +91,35 @@ namespace AdaptationForSlopeOnePoint.ViewModels
         }
         #endregion
 
+        #region Перенос точки ручки формы
+        public ICommand MoveShapeHandlePointCommand { get; }
+
+        private void OnMoveShapeHandlePointCommandExecuted(object parameter)
+        {
+            RevitModel.MoveShapeHandlePoint();
+            RevitCommand.mainView.Close();
+        }
+
+        private bool CanMoveShapeHandlePointCommandExecute(object parameter)
+        {
+            return true;
+        }
+        #endregion
+
+        #region Закрыть окно
+        public ICommand CloseWindowCommand { get; }
+
+        private void OnCloseWindowCommandExecuted(object parameter)
+        {
+            RevitCommand.mainView.Close();
+        }
+
+        private bool CanCloseWindowCommandExecute(object parameter)
+        {
+            return true;
+        }
+        #endregion
+
         #endregion
 
 
@@ -102,6 +131,8 @@ namespace AdaptationForSlopeOnePoint.ViewModels
             #region Команды
             GetAdaptiveProfiles = new LambdaCommand(OnGetAdaptiveProfilesCommandExecuted, CanGetAdaptiveProfilesCommandExecute);
             GetRoadLine = new LambdaCommand(OnGetRoadLineCommandExecuted, CanGetRoadLineCommandExecute);
+            MoveShapeHandlePointCommand = new LambdaCommand(OnMoveShapeHandlePointCommandExecuted, CanMoveShapeHandlePointCommandExecute);
+            CloseWindowCommand = new LambdaCommand(OnCloseWindowCommandExecuted, CanCloseWindowCommandExecute);
             #endregion
         }
 

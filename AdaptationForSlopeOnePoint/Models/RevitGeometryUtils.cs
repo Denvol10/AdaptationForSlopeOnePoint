@@ -34,7 +34,7 @@ namespace AdaptationForSlopeOnePoint.Models
         }
 
         // Получение точки пересечения профиля с линиями на поверхности дороги
-        public XYZ GetIntersectPoint(Document doc ,FamilyInstance profile, IEnumerable<Line> roadLines)
+        public static XYZ GetIntersectPoint(Document doc ,FamilyInstance profile, IEnumerable<Line> roadLines)
         {
             Plane plane = GetPlanesByAdaptiveProfile(doc, profile);
             Line intersectLine = GetIntersectCurve(roadLines, plane);
@@ -43,13 +43,23 @@ namespace AdaptationForSlopeOnePoint.Models
             return intersectPoint;
         }
 
+        public static List<ReferencePoint> GetShapeHandlePoints(Document doc ,FamilyInstance profile)
+        {
+            var pointIds = AdaptiveComponentInstanceUtils.GetInstanceShapeHandlePointElementRefIds(profile);
+            var points = pointIds.Select(id => doc.GetElement(id)).OfType<ReferencePoint>().ToList();
+
+            return points;
+        }
+
         // Получение линии из списка, которая пересекается с плоскостью
         private static Line GetIntersectCurve(IEnumerable<Line> lines, Plane plane)
         {
             XYZ originPlane = plane.Origin;
+            XYZ originPlaneBase = new XYZ(originPlane.X, originPlane.Y, 0);
             XYZ directionLine = plane.XVec;
+            XYZ directionLineBase = new XYZ(directionLine.X, directionLine.Y, 0);
 
-            var lineByPlane = Line.CreateUnbound(originPlane, directionLine);
+            var lineByPlane = Line.CreateUnbound(originPlaneBase, directionLineBase);
 
             foreach (var line in lines)
             {
@@ -98,7 +108,7 @@ namespace AdaptationForSlopeOnePoint.Models
         }
 
         // Метод получения плоскости в которой размещен адаптивный профиль.
-        private Plane GetPlanesByAdaptiveProfile(Document doc, FamilyInstance profile)
+        private static Plane GetPlanesByAdaptiveProfile(Document doc, FamilyInstance profile)
         {
             var points = AdaptiveComponentInstanceUtils.GetInstancePlacementPointElementRefIds(profile)
                                                        .Select(id => doc.GetElement(id))
