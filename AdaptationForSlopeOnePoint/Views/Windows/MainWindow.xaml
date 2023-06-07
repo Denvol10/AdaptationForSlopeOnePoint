@@ -72,7 +72,7 @@
         <GroupBox Header="Верх покрытия">
             <UniformGrid Columns="2">
                 <UniformGrid Rows="2">
-                    <TextBlock Text="Линии оси трассы"
+                    <TextBlock Text="Линия на поверхности"
                                Style="{StaticResource TextAboveButton}" />
                     <Button Style="{StaticResource SelectButton}"
                             Command="{Binding GetRoadLine}" />
