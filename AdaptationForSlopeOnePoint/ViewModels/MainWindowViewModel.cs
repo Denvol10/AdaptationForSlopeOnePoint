@@ -127,6 +127,7 @@ namespace AdaptationForSlopeOnePoint.ViewModels
         private void SaveSettings()
         {
             Properties.Settings.Default["AdaptiveProfileElemIds"] = AdaptiveProfileElemIds;
+            Properties.Settings.Default["RoadLineElemIds1"] = RoadLineElemIds1;
             Properties.Settings.Default.Save();
         }
 
@@ -144,6 +145,18 @@ namespace AdaptationForSlopeOnePoint.ViewModels
                 {
                     AdaptiveProfileElemIds = profileElementIdsInSettings;
                     RevitModel.GetFamilyInstancesBySettings(profileElementIdsInSettings);
+                }
+            }
+            #endregion
+
+            #region Инициализация значения элементам линии на поверхности из Settings
+            if (!(Properties.Settings.Default["RoadLineElemIds1"] is null))
+            {
+                string roadElementIdsInSettings = Properties.Settings.Default["RoadLineElemIds1"].ToString();
+                if(RevitModel.IsLinesExistInModel(roadElementIdsInSettings) && !string.IsNullOrEmpty(roadElementIdsInSettings))
+                {
+                    RoadLineElemIds1 = roadElementIdsInSettings;
+                    RevitModel.GetRoadLinesBySettings(roadElementIdsInSettings);
                 }
             }
             #endregion

@@ -14,8 +14,6 @@ namespace AdaptationForSlopeOnePoint.Models
         public static List<FamilyInstance> GetFamilyInstances(UIApplication uiapp, out string elementIds)
         {
             Selection sel = uiapp.ActiveUIDocument.Selection;
-            //var selectedElements = sel.PickElementsByRectangle(new GenericModelCategoryFilter(), "Select Family Instances");
-
             var elementReferences = sel.PickObjects(ObjectType.Element, new GenericModelCategoryFilter(), "Select Adaptive Profiles");
             var selectedElements = elementReferences.Select(r => uiapp.ActiveUIDocument.Document.GetElement(r));
             elementIds = ElementIdToString(selectedElements);
