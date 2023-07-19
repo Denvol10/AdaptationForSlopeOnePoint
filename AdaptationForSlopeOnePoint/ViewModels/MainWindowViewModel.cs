@@ -97,6 +97,7 @@ namespace AdaptationForSlopeOnePoint.ViewModels
         private void OnMoveShapeHandlePointCommandExecuted(object parameter)
         {
             RevitModel.MoveShapeHandlePoint();
+            SaveSettings();
             RevitCommand.mainView.Close();
         }
 
@@ -111,6 +112,7 @@ namespace AdaptationForSlopeOnePoint.ViewModels
 
         private void OnCloseWindowCommandExecuted(object parameter)
         {
+            SaveSettings();
             RevitCommand.mainView.Close();
         }
 
@@ -122,11 +124,29 @@ namespace AdaptationForSlopeOnePoint.ViewModels
 
         #endregion
 
+        private void SaveSettings()
+        {
+            Properties.Settings.Default["AdaptiveProfileElemIds"] = AdaptiveProfileElemIds;
+            Properties.Settings.Default.Save();
+        }
+
 
         #region Конструктор класса MainWindowViewModel
         public MainWindowViewModel(RevitModelForfard revitModel)
         {
             RevitModel = revitModel;
+
+            #region Инициализация значения элементам адаптивных профилей из Settings
+            if (!(Properties.Settings.Default["AdaptiveProfileElemIds"] is null))
+            {
+                string profileElementIdsInSettings = Properties.Settings.Default["AdaptiveProfileElemIds"].ToString();
+                if(RevitModel.IsFamilyInstancesExistInModel(profileElementIdsInSettings) && !string.IsNullOrEmpty(profileElementIdsInSettings))
+                {
+                    AdaptiveProfileElemIds = profileElementIdsInSettings;
+                    RevitModel.GetFamilyInstancesBySettings(profileElementIdsInSettings);
+                }
+            }
+            #endregion
 
             #region Команды
             GetAdaptiveProfiles = new LambdaCommand(OnGetAdaptiveProfilesCommandExecuted, CanGetAdaptiveProfilesCommandExecute);

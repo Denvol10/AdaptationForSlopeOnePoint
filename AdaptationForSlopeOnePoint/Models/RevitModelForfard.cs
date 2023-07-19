@@ -47,6 +47,23 @@ namespace AdaptationForSlopeOnePoint
 
         #endregion
 
+        #region Проверка на то существуют ли профили в модели
+        public bool IsFamilyInstancesExistInModel(string elemIdsInSettings)
+        {
+            var elemIds = RevitGeometryUtils.GetIdsByString(elemIdsInSettings);
+
+            return RevitGeometryUtils.IsElemsExistInModel(Doc, elemIds, typeof(FamilyInstance));
+        }
+        #endregion
+
+        #region Получение профилей из settings
+        public void GetFamilyInstancesBySettings(string elemIdsInSettings)
+        {
+            var elemIds = RevitGeometryUtils.GetIdsByString(elemIdsInSettings);
+            AdaptiveProfiles = RevitGeometryUtils.GetFamilyInstancesById(Doc, elemIds);
+        }
+        #endregion
+
         #region Линия на поверхности
         public List<Line> RoadLines1 { get; set; }
 
